@@ -121,6 +121,12 @@ export function closuresFor(kb: Kb, placeId: string, month: number) {
   return kb.closures.filter((c) => c.placeId === placeId && c.months.includes(month));
 }
 
+// PGlite returns { rows }, postgres-js returns the rows array itself.
+function rowsOf<T>(result: unknown): T[] {
+  const r = result as T[] | { rows: T[] };
+  return Array.isArray(r) ? r : r.rows;
+}
+
 // Full-text search over guidance docs and permit rules.
 // Words are OR-ed so natural questions ("can foreigners visit gurudongmar")
 // still match; ts_rank puts the best matches first.
@@ -129,18 +135,18 @@ export async function searchKnowledge(query: string, limit = 4) {
   const words = query.toLowerCase().match(/[a-z]{3,}/g) ?? [];
   if (!words.length) return { docs: [], permits: [] };
   const q = words.join(" or ");
-  const docs = await db.execute<KbDoc & { rank: number }>(sql`
-    SELECT id, title, topic, body, source_url AS "sourceUrl", verified_at AS "verifiedAt",
+  const docs = await db.execute(sql`
+    SELECT id, title, topic, body, source_url AS "sourceUrl", verified_at::text AS "verifiedAt",
       ts_rank(to_tsvector('english', title || ' ' || body), websearch_to_tsquery('english', ${q})) AS rank
     FROM kb_docs
     WHERE to_tsvector('english', title || ' ' || body) @@ websearch_to_tsquery('english', ${q})
     ORDER BY rank DESC
     LIMIT ${limit}
   `);
-  const permits = await db.execute<Permit>(sql`
+  const permits = await db.execute(sql`
     SELECT id, name, indian_rule AS "indianRule", foreigner_allowed AS "foreignerAllowed",
       foreigner_rule AS "foreignerRule", how_to_apply AS "howToApply", source_url AS "sourceUrl",
-      verified_at AS "verifiedAt",
+      verified_at::text AS "verifiedAt",
       ts_rank(to_tsvector('english', name || ' ' || indian_rule || ' ' || foreigner_rule), websearch_to_tsquery('english', ${q})) AS rank
     FROM permits
     WHERE to_tsvector('english', name || ' ' || indian_rule || ' ' || foreigner_rule)
@@ -148,5 +154,5 @@ export async function searchKnowledge(query: string, limit = 4) {
     ORDER BY rank DESC
     LIMIT ${limit}
   `);
-  return { docs: docs.rows, permits: permits.rows };
+  return { docs: rowsOf<KbDoc & { rank: number }>(docs), permits: rowsOf<Permit>(permits) };
 }

@@ -16,7 +16,18 @@ Copy `.env.example` to `.env.local` and paste your key after `GOOGLE_GENERATIVE_
 npm run dev
 ```
 
-Open http://localhost:3000. There's nothing else to set up: the database (PGlite, real Postgres running inside the app) is created in `.data/` on first start.
+Open http://localhost:3000.
+
+### Database
+
+- **No `DATABASE_URL`:** the app uses PGlite (real Postgres running inside the app) in `.data/`. It needs no setup and reloads the knowledge base on every start.
+- **With `DATABASE_URL` (Supabase):** the app uses that database. Set it up once, and again whenever you change `src/data/`:
+
+```bash
+npm run db:setup
+```
+
+This creates the tables, turns on row level security (so Supabase's public API can't read or write them), and replaces the knowledge base with `src/data/`. Trips and reports are never touched.
 
 ## Pages
 
@@ -42,7 +53,7 @@ The free Gemini tier currently allows about **20 requests per model per day**. A
 
 ## Project map
 
-- `src/data/`: knowledge base seed (places, routes, permits, closures, guidance). Edit here, then restart.
+- `src/data/`: knowledge base seed (places, routes, permits, closures, guidance). Edit here, then restart (local database) or run `npm run db:setup` (Supabase).
 - `src/db/`: schema and database setup.
 - `src/lib/agent/`: AI instructions, tools and model fallback.
 - `src/lib/itinerary.ts`: the plan validator.
@@ -50,4 +61,4 @@ The free Gemini tier currently allows about **20 requests per model per day**. A
 
 ## Not built yet
 
-Homestays and booking (Phase 2), offline saving (PWA), the camera culture guide, accounts, and moving the database to hosted Postgres (Neon or Supabase) for deployment.
+Homestays and booking (Phase 2), offline saving (PWA), the camera culture guide, accounts, and deployment to Vercel.
