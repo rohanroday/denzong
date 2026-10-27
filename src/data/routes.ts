@@ -1,0 +1,85 @@
+// DRAFT SEED DATA. Typical dry-season drive times on real mountain roads,
+// in minutes, without long stops. Routes work in both directions.
+// Unverified: confirm with local drivers and update after each monsoon.
+
+type RouteSeed = [from: string, to: string, minutes: number, notes?: string];
+
+export const routeSeeds: RouteSeed[] = [
+  // Gateways
+  ["bagdogra", "gangtok", 270, "About 125 km via NH10 along the Teesta. Landslide-prone in monsoon."],
+  ["njp", "gangtok", 270, "About 120 km via NH10. Shared taxis run from NJP/Siliguri."],
+  ["bagdogra", "njp", 30],
+  ["njp", "pelling", 330, "Via Melli and Jorethang."],
+  ["bagdogra", "pelling", 360, "Via Melli and Jorethang."],
+  ["njp", "namchi", 210, "Via Melli."],
+  ["pakyong", "gangtok", 75],
+  ["njp", "aritar", 240, "Via Rangpo and Rongli."],
+
+  // East
+  ["gangtok", "enchey", 15],
+  ["gangtok", "hanuman-tok", 30],
+  ["gangtok", "rumtek", 60],
+  ["gangtok", "tsomgo", 105, "About 40 km of steep road; leave by 8 am, return by mid-afternoon."],
+  ["tsomgo", "baba-mandir", 45],
+  ["tsomgo", "nathula", 45],
+  ["nathula", "baba-mandir", 30],
+  ["gangtok", "aritar", 180, "Via Rongli."],
+  ["aritar", "zuluk", 150, "Via Rongli; steep and narrow after Rongli."],
+  ["gangtok", "zuluk", 270, "Via Rongli."],
+  ["zuluk", "thambi", 30],
+  ["thambi", "kupup", 60],
+  ["kupup", "baba-mandir", 30],
+  ["kupup", "tsomgo", 75, "Silk Route connector; open only when the army road is clear of snow."],
+
+  // North
+  ["gangtok", "kabi", 60],
+  ["gangtok", "phodong", 75],
+  ["kabi", "seven-sisters", 15],
+  ["seven-sisters", "phodong", 15],
+  ["phodong", "mangan", 75],
+  ["gangtok", "mangan", 150, "About 65 km on the North Sikkim highway."],
+  ["mangan", "dzongu", 45],
+  ["mangan", "chungthang", 75],
+  ["chungthang", "lachung", 60],
+  ["chungthang", "lachen", 75],
+  ["gangtok", "lachung", 360, "About 120 km; a full day. Expect checkpost stops and landslide delays."],
+  ["gangtok", "lachen", 360, "About 120 km; a full day."],
+  ["lachung", "yumthang", 75],
+  ["yumthang", "zero-point", 75, "Only as far as snow allows; extra vehicle charge."],
+  ["lachen", "thangu", 90, "Departures around 4–5 am to reach Gurudongmar before wind picks up."],
+  ["thangu", "gurudongmar", 90],
+  ["thangu", "chopta-valley", 20],
+  ["lachen", "lachung", 150, "Back down to Chungthang and up the other valley."],
+
+  // West
+  ["gangtok", "pelling", 300, "About 115 km via Ravangla or Singtam."],
+  ["gangtok", "ravangla", 180],
+  ["ravangla", "pelling", 150],
+  ["pelling", "pemayangtse", 10],
+  ["pelling", "rabdentse", 15],
+  ["pelling", "sangachoeling", 20, "Last part is a steep walk."],
+  ["pelling", "khecheopalri", 60],
+  ["pelling", "kanchenjunga-falls", 50],
+  ["kanchenjunga-falls", "yuksom", 40],
+  ["khecheopalri", "yuksom", 50],
+  ["pelling", "yuksom", 105],
+  ["yuksom", "dubdi", 60, "Walk, not drive: about an hour uphill on a forest trail."],
+  ["yuksom", "tashiding", 60],
+  ["pelling", "tashiding", 90],
+  ["pelling", "rinchenpong", 90],
+  ["pelling", "uttarey", 120],
+  ["pelling", "okhrey", 180, "Via Soreng or Dentam; narrow roads."],
+  ["okhrey", "varsey", 90, "About 45 min drive to Hilley, then a 4 km walk."],
+  ["rinchenpong", "okhrey", 120],
+
+  // South
+  ["gangtok", "namchi", 150, "About 78 km via Singtam."],
+  ["namchi", "samdruptse", 20],
+  ["namchi", "char-dham", 15],
+  ["namchi", "ravangla", 75],
+  ["namchi", "temi", 75],
+  ["ravangla", "temi", 45],
+  ["ravangla", "buddha-park", 10],
+  ["namchi", "pelling", 165, "Via Jorethang and Legship."],
+  ["namchi", "rinchenpong", 120],
+];

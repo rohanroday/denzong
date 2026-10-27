@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Denzong tokens. Direction: docs/Denzong — Design Direction.md.
+   Light theme on purpose: phones in bright mountain daylight. */
+@theme {
+  --color-mist: #f3f4f2;
+  --color-mist-deep: #e8ebe7;
+  --color-paper: #fbfbfa;
+  --color-line: #d8ddd9;
+  --color-ink: #1b2422;
+  --color-slate: #44524e;
+  --color-muted: #5f6c68;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-maroon: #7a1f2b;
+  --color-maroon-deep: #5f1620;
+  --color-maroon-wash: #f5e8e9;
+  --color-pine: #1f4d3f;
+  --color-pine-wash: #e3ede8;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Prayer-flag colours: day dots and the wordmark strip only. */
+  --color-flag-blue: #2b5fa6;
+  --color-flag-white: #ffffff;
+  --color-flag-red: #c0392b;
+  --color-flag-green: #2e8b57;
+  --color-flag-yellow: #e3b23c;
+
+  --color-caution: #8a5a00;
+  --color-caution-wash: #fbf0d9;
+  --color-danger: #a12a1f;
+  --color-danger-wash: #fbe7e4;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(27 36 34 / 0.06), 0 4px 16px -6px rgb(27 36 34 / 0.12);
+  --shadow-raised: 0 2px 4px rgb(27 36 34 / 0.08), 0 12px 32px -10px rgb(27 36 34 / 0.22);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-mist-in: mist-in 900ms var(--ease-out-expo) both;
+  @keyframes mist-in {
+    /* Starts readable: content is never hidden if the animation stalls. */
+    from {
+      opacity: 0.35;
+      filter: blur(6px);
+      transform: translateY(6px);
+    }
   }
 }
 
+html {
+  background: var(--color-mist);
+  color: var(--color-ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-maroon);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+input,
+textarea {
+  caret-color: var(--color-maroon);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
 }
