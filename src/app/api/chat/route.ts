@@ -11,7 +11,9 @@ import { plannerModel } from "@/lib/agent/model";
 import { createTools } from "@/lib/agent/tools";
 import { loadKb } from "@/lib/kb";
 
-export const maxDuration = 60;
+// Free-tier models can be slow, and a plan may take a few validator rounds.
+// Vercel Hobby allows up to 300s.
+export const maxDuration = 180;
 
 function friendlyError(error: unknown) {
   const message = error instanceof Error ? error.message : String(error);
