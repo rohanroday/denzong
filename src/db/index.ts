@@ -15,8 +15,11 @@ import { DDL, seedKnowledge, type Db } from "./setup";
 async function init(): Promise<Db> {
   const url = process.env.DATABASE_URL;
   if (url) {
-    // prepare: false is required by Supabase's transaction pooler (port 6543).
-    const client = postgres(url, { prepare: false, max: 5 });
+    // Use Supabase's *session* pooler (port 5432). Its transaction pooler
+    // (port 6543) garbles replies when queries run in parallel with this
+    // driver, which hangs requests. Few connections per instance, released
+    // when idle, so serverless instances don't exhaust the pool.
+    const client = postgres(url, { prepare: false, max: 3, idle_timeout: 20 });
     return drizzlePostgres({ client, schema });
   }
 
